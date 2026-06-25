@@ -1,0 +1,14 @@
+streamlit==1.46.0
+streamlit-mic-recorder==0.0.8
+
+groq==0.30.0
+openai-whisper==20250625
+
+gTTS==2.5.4
+python-dotenv==1.1.1
+
+torch
+torchaudio
+
+numpy
+ffmpeg-python
