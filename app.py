@@ -39,7 +39,7 @@ if "audio_path" not in st.session_state:
 st.markdown(
     """
     <h1 style='text-align:center;'>
-        🎙️ Pathixo Voice AI Assistant
+         Voice AI Assistant
     </h1>
     <p style='text-align:center;color:gray;'>
         Speak naturally and receive an AI-generated voice response.
@@ -60,7 +60,7 @@ left, right = st.columns(2)
 
 with left:
 
-    st.subheader("🎤 Speak")
+    st.subheader(" Speak")
 
     audio = mic_recorder(
         start_prompt="🎙️ Start Recording",
@@ -98,7 +98,7 @@ with left:
 
 with right:
 
-    st.subheader("🤖 AI Response")
+    st.subheader("AI Response")
 
     st.markdown("### 🗣️ You Said")
 
