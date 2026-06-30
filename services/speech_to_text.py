@@ -1,76 +1,55 @@
 import os
 import tempfile
-import whisper
-import subprocess
+from groq import Groq
+from dotenv import load_dotenv
 
-# Load Whisper model only once
-# Options: tiny, base, small, medium, large
-model = whisper.load_model("small")
+# Load environment variables
+load_dotenv()
+
+# Initialize Groq client
+client = Groq(
+    api_key=os.getenv("GROQ_API_KEY")
+)
 
 
 def transcribe_audio(audio_bytes):
     """
-    Transcribes microphone audio using a local Whisper model.
+    Transcribes microphone audio using Groq Whisper API.
 
     Args:
         audio_bytes (bytes): Audio bytes from streamlit-mic-recorder.
 
     Returns:
-        str: Transcribed text.
+        str: Transcribed text or None.
     """
 
     if audio_bytes is None:
         return None
 
-    webm_path = None
-    wav_path = None
+    temp_audio = None
 
     try:
-        # Save browser audio (WebM)
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".webm") as webm_file:
-            webm_file.write(audio_bytes)
-            webm_path = webm_file.name
+        # Save the recorded audio as a temporary WebM file
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".webm") as f:
+            f.write(audio_bytes)
+            temp_audio = f.name
 
-        # Temporary WAV path
-        wav_path = webm_path.replace(".webm", ".wav")
+        # Send audio to Groq Whisper
+        with open(temp_audio, "rb") as audio_file:
+            transcription = client.audio.transcriptions.create(
+                file=audio_file,
+                model="whisper-large-v3",
+                language="en",
+                temperature=0,
+                response_format="verbose_json",
+            )
 
-        # Convert WebM → WAV using FFmpeg
-        subprocess.run(
-            [
-                "ffmpeg",
-                "-y",
-                "-i",
-                webm_path,
-                "-ar",
-                "16000",
-                "-ac",
-                "1",
-                wav_path,
-            ],
-            stdout=subprocess.DEVNULL,
-            stderr=subprocess.DEVNULL,
-            check=True,
-        )
-
-        # Transcribe
-        result = model.transcribe(
-            wav_path,
-            language="en",
-            fp16=False,
-            temperature=0,
-            beam_size=5,
-            best_of=5,
-        )
-
-        return result["text"].strip()
+        return transcription.text.strip()
 
     except Exception as e:
-        print(f"Whisper Error: {e}")
+        print(f"Groq STT Error: {e}")
         return None
 
     finally:
-        if webm_path and os.path.exists(webm_path):
-            os.remove(webm_path)
-
-        if wav_path and os.path.exists(wav_path):
-            os.remove(wav_path)
+        if temp_audio and os.path.exists(temp_audio):
+            os.remove(temp_audio)
