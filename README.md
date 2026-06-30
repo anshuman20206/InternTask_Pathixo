@@ -1,31 +1,34 @@
 # 🎙️ Voice-Based AI Assistant
 
-A simple voice-based AI assistant built with **Python**, **Streamlit**, **Local Whisper**, **Groq LLM**, and **gTTS**. The application records audio from the user's microphone, converts speech to text using a locally running Whisper model, sends the transcription to Groq's LLM for response generation, converts the response back into speech, and automatically plays the generated audio.
+A simple, fast, and intelligent voice-based AI assistant built with **Python**, **Streamlit**, **Groq Whisper API**, **Groq Llama 3.3**, and **gTTS**.
+
+The application records audio from the user's microphone, transcribes speech using the **Groq Whisper API**, generates intelligent responses using **Groq's Llama 3.3 70B Versatile** model, converts the response back into speech, and automatically plays the generated audio.
 
 ---
 
 ## 🚀 Features
 
-* 🎤 Record voice directly from the browser
-* 📝 Speech-to-Text using Local Whisper
-* 🤖 AI-powered responses using Groq Llama
-* 🔊 Text-to-Speech using Google Text-to-Speech (gTTS)
-* ▶️ Automatic audio playback
-* 💬 Simple and clean Streamlit interface
-* ⚡ Fast and lightweight architecture
+- 🎤 Record voice directly from the browser
+- 📝 Accurate Speech-to-Text using **Groq Whisper API**
+- 🤖 AI-powered responses using **Groq Llama 3.3 70B Versatile**
+- 🔊 Text-to-Speech using **Google Text-to-Speech (gTTS)**
+- ▶️ Automatic audio playback
+- 💬 Clean and responsive Streamlit interface
+- ⚡ Fast cloud-based speech recognition
+- ☁️ No local AI models or GPU required
 
 ---
 
 ## 🛠️ Tech Stack
 
-| Component             | Technology                     |
-| --------------------- | ------------------------------ |
-| Frontend              | Streamlit                      |
-| Voice Recording       | streamlit-mic-recorder         |
-| Speech-to-Text        | OpenAI Whisper (Local)         |
-| Large Language Model  | Groq (Llama 3.3 70B Versatile) |
-| Text-to-Speech        | gTTS                           |
-| Environment Variables | python-dotenv                  |
+| Component | Technology |
+|-----------|------------|
+| Frontend | Streamlit |
+| Voice Recording | streamlit-mic-recorder |
+| Speech-to-Text | Groq Whisper API |
+| Large Language Model | Groq (Llama 3.3 70B Versatile) |
+| Text-to-Speech | gTTS |
+| Environment Variables | python-dotenv |
 
 ---
 
@@ -55,8 +58,8 @@ PATHIXO-2/
 ### 1. Clone the Repository
 
 ```bash
-git clone <https://github.com/anshuman20206/InternTask_Pathixo/>
-cd PATHIXO-2
+git clone https://github.com/anshuman20206/InternTask_Pathixo.git
+cd InternTask_Pathixo
 ```
 
 ---
@@ -69,21 +72,9 @@ pip install -r requirements.txt
 
 ---
 
-### 3. Install FFmpeg
+### 3. Create a `.env` File
 
-Whisper requires FFmpeg.
-
-Verify installation:
-
-```bash
-ffmpeg -version
-```
-
----
-
-### 4. Create Environment File
-
-Create a `.env` file in the project root.
+Create a `.env` file in the project root directory.
 
 ```env
 GROQ_API_KEY=your_groq_api_key_here
@@ -93,40 +84,75 @@ GROQ_API_KEY=your_groq_api_key_here
 
 ## ▶️ Running the Application
 
-Start the Streamlit server:
+Start the Streamlit application:
 
 ```bash
 streamlit run app.py
 ```
 
-The application will automatically open in your browser.
+or
+
+```bash
+python -m streamlit run app.py
+```
+
+The application will automatically open in your default browser.
 
 ---
 
 ## 🔄 Application Workflow
 
-1. User records audio through the microphone.
-2. Audio is saved as a temporary WAV file.
-3. Local Whisper transcribes speech into text.
-4. The transcribed text is sent to the Groq LLM.
-5. Groq generates an AI response.
-6. gTTS converts the response into speech.
-7. The generated audio is automatically played back.
-8. Both the user's transcription and AI response are displayed on the interface.
+```text
+🎤 User Speaks
+        │
+        ▼
+Microphone Recording
+        │
+        ▼
+Groq Whisper API
+(Speech-to-Text)
+        │
+        ▼
+User Query
+        │
+        ▼
+Groq Llama 3.3 70B
+(Response Generation)
+        │
+        ▼
+Generated Response
+        │
+        ▼
+gTTS
+(Text-to-Speech)
+        │
+        ▼
+🔊 Audio Playback
+```
 
 ---
 
 ## 📦 Requirements
 
-* Python 3.10+
-* FFmpeg
-* Internet connection (required for Groq API and gTTS)
+- Python 3.10+
+- Internet connection
+- Groq API Key
+
+> **Note:** Since speech recognition is handled by the Groq Whisper API, **FFmpeg, Torch, Torchaudio, and local Whisper models are no longer required.**
 
 ---
 
-## 🤖 LLM Model
+## 🤖 AI Models Used
 
-This project uses:
+### Speech-to-Text
+
+```
+whisper-large-v3
+```
+
+via the Groq API.
+
+### Large Language Model
 
 ```
 llama-3.3-70b-versatile
@@ -138,29 +164,42 @@ via the Groq API.
 
 ## 📸 User Interface
 
-The application contains a simple two-panel layout:
+The application provides a simple two-panel layout.
 
-* **Left Panel**
+### Left Panel
 
-  * Voice recording button
-  * Transcribed user speech
+- 🎤 Voice recording button
+- 📝 Live transcribed user speech
 
-* **Right Panel**
+### Right Panel
 
-  * AI-generated response
-  * Automatic audio playback
+- 🤖 AI-generated response
+- 🔊 Automatic audio playback
+
+---
+
+## ✨ Advantages of Using Groq Whisper API
+
+- Faster than running Whisper locally
+- Higher transcription accuracy
+- No GPU required
+- No FFmpeg installation
+- No Torch dependency
+- Lower memory usage
+- Simple deployment
 
 ---
 
 ## 📌 Future Improvements
 
-* Conversation history
-* Chat memory
-* Multiple language support
-* Streaming responses
-* Voice selection
-* Offline Text-to-Speech
-* Download generated audio
+- 💬 Multi-turn conversation memory
+- 🌍 Multi-language support
+- 🎙️ Voice selection
+- ⚡ Streaming AI responses
+- 📄 Chat history
+- 🔉 Better Text-to-Speech (Edge-TTS)
+- 📥 Download conversation audio
+- 📱 Mobile-friendly interface
 
 ---
 
@@ -172,4 +211,11 @@ B.Tech Computer Science Engineering
 
 AI & Full Stack Developer
 
-GitHub: https://github.com/anshuman20206
+- GitHub: https://github.com/anshuman20206
+- LinkedIn: https://www.linkedin.com/in/anshumansinghsdd
+
+---
+
+## 📄 License
+
+This project was developed as part of the **Pathixo AI Internship Assignment** and is intended for educational and demonstration purposes.
