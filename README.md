@@ -55,7 +55,7 @@ PATHIXO-2/
 ### 1. Clone the Repository
 
 ```bash
-git clone <repository-url>
+git clone <https://github.com/anshuman20206/InternTask_Pathixo/>
 cd PATHIXO-2
 ```
 
